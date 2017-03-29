@@ -1,0 +1,11 @@
+Library/
+Temp/
+.vscode/
+obj/
+Assets/Scenes/
+Assets/Scenes.meta
+Assets/Images/
+Assets/Images.meta
+Assets/Plugins/
+Assets/Plugins.meta
+RegisterIcalls.cpp
