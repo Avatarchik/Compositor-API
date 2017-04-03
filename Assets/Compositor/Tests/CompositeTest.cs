@@ -1,19 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/* 
+*   Compositor
+*   Copyright (c) 2017 Yusuf Olokoba
+*/
+
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CompositeTest : MonoBehaviour {
 
 	public RawImage rawImage;
-	public ImageCompositor.Layer[] layers;
+	public GPUCompositor.Layer[] layers;
 
 	// Use this for initialization
 	IEnumerator Start () {
 		yield return new WaitForEndOfFrame ();
-		using (var compositor = new ImageCompositor(result => rawImage.texture = result)) {
+		using (var compositor = new GPUCompositor()) {
 			foreach (var layer in layers) compositor.AddLayer (layer);
-			compositor.Composite ();
+			compositor.Composite (result => rawImage.texture = result);
 		}
 	}
 	
