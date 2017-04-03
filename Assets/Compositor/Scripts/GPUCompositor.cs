@@ -90,6 +90,7 @@ public sealed class GPUCompositor : IDisposable {
 	#region --IDisposable--
 
 	public void Dispose () {
+		// Enqueue to guarantee that any previous calls to Composite and Readback are completed
 		commandQueue.Enqueue(() => {
 			// Free the composite texture
 			RenderTexture.ReleaseTemporary(composite); 
@@ -99,7 +100,6 @@ public sealed class GPUCompositor : IDisposable {
 			commandQueue.Dispose();
 			// Clear the layers
 			layers.Clear();
-			layers = null;
 		});
 	}
 	#endregion
@@ -142,6 +142,8 @@ public sealed class GPUCompositor : IDisposable {
 		private List<Action> jobs;
 
 		public GraphicsQueue () {
+			// Create the queue
+			jobs = new List<Action>();
 			// Register for the post render event
 			Camera.onPostRender += Update;
 		}
@@ -153,15 +155,13 @@ public sealed class GPUCompositor : IDisposable {
 		public void Dispose () {
 			// Unregister from the post render event
 			Camera.onPostRender -= Update;
-			// Clear the queue
-			jobs.Clear(); jobs = null;
 		}
 
 		private void Update (Camera unused) {
 			// Invoke all jobs
 			jobs.ForEach(job => job());
 			// Clear the queue // Null check here in case Dispose becomes enqueued
-			if (jobs != null) jobs.Clear();
+			jobs.Clear();
 		}
 	}
 	#endregion
