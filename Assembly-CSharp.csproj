@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Compositor\Scripts\CompositorTypes.cs" />
      <Compile Include="Assets\Compositor\Scripts\GPUCompositor.cs" />
      <Compile Include="Assets\Compositor\Tests\CompositeTest.cs" />
      <None Include="Assets\Compositor\Resources\Compositor2D.shader" />

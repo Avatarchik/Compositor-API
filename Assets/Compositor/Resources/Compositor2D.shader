@@ -11,10 +11,9 @@
 
 		Pass {
 			CGPROGRAM
+
 			#pragma vertex vert
 			#pragma fragment frag
-
-			#define PI 3.14159265359
 			
 			#include "UnityCG.cginc"
 
@@ -28,34 +27,50 @@
 				float4 vertex : SV_POSITION;
 			};
 
-			float2 _Offset, _Scale;
-			float _Rotation;
+			float2 _Offset, _Scale, _Size;
+			float _Rotation; // Radians
 
 			v2f vert (appdata v) {
 				v2f o;
 				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
-				float c = cos(_Rotation * PI / 180.0), s = sin(_Rotation * PI / 180.0);
+				// Calculate the sine and cosine of the angle
+				float c = cos(_Rotation), s = sin(_Rotation);
 				float2x2
-				rotation = float2x2(
+				// Calculate the rotation matrix
+				m_rotation = float2x2(
 					float2(c, s),
 					float2(-s, c)
-				), scale = float2x2(
+				),
+				// Calculate the scale matrix
+				m_scale = float2x2(
 					float2(1.0 / _Scale.x, 0),
 					float2(0, 1.0 / _Scale.y)
-				), transformation = mul(scale, rotation);
-				o.uv = v.uv + _Offset - float2(0.5, 0.5);
-				//o.uv = mul(o.uv, scale);
-				o.uv = mul(o.uv, transformation);
-				o.uv = o.uv + float2(0.5, 0.5);
+				),
+				// Calculate the pixel-space normalization matrix
+				m_normalize = float2x2(
+					float2(_Size.x, 0.0),
+					float2(0.0, _Size.y)
+				);
+				// Offset the UV's to be centred at the origin
+				o.uv = v.uv - float2(0.5, 0.5);
+				// Normalize the UV coordinates from viewport space [0, 1] to pixel space [0, w/h]
+				o.uv = mul(m_normalize, o.uv);
+				// Rotate the UV coordinate
+				o.uv = mul(m_rotation, o.uv);
+				// Scale the coordinate
+				o.uv = mul(m_scale, o.uv);
+				// Reset the offset
+				o.uv += float2(0.5, 0.5);
 				return o;
 			}
 			
-			sampler2D _MainTex, _BaseTex;
+			sampler2D _MainTex;
 
 			fixed4 frag (v2f i) : SV_Target {
-				fixed4 col = tex2D(_MainTex, i.uv);
+				// Clamp the texture
 				if (i.uv.x < 0.0 || i.uv.x > 1.0 || i.uv.y < 0.0 || i.uv.y > 1.0) return fixed4(0.0, 0.0, 0.0, 0.0);
-				return col;
+				// Sample
+				return tex2D(_MainTex, i.uv);
 			}
 			ENDCG
 		}

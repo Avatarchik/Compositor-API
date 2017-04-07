@@ -6,19 +6,22 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CompositeTest : MonoBehaviour {
+namespace CompositorU.Tests {
 
-	public RawImage rawImage;
-	public GPUCompositor.Layer[] layers;
+	public class CompositeTest : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		// Create a compositor
-		using (var compositor = new GPUCompositor()) {
-			// Add layers
-			foreach (var layer in layers) compositor.AddLayer (layer);
-			// Composite and display the result
-			compositor.Composite (result => rawImage.texture = result);
+		public RawImage rawImage;
+		public Layer[] layers;
+
+		// Use this for initialization
+		void Start () {
+			// Create a compositor
+			using (var compositor = new GPUCompositor()) {
+				// Add layers
+				foreach (var layer in layers) compositor.AddLayer (layer);
+				// Composite and display the result
+				compositor.Composite (result => rawImage.texture = result);
+			}
 		}
 	}
 }
