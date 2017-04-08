@@ -10,7 +10,7 @@ namespace CompositorU {
 	using System.Collections.Generic;
 	using Layers = System.Collections.Generic.List<Layer>;
 
-	public sealed class GPUCompositor : IDisposable {
+	public sealed class RenderCompositor : IDisposable {
 
 		#region --Op vars--
 		private RenderTexture composite;
@@ -22,7 +22,7 @@ namespace CompositorU {
 
 		#region --Client API--
 
-		public GPUCompositor () {
+		public RenderCompositor () {
 			// Create the material
 			material = new Material (Shader.Find ("Hidden/Compositor2D"));
 			// Create the graphic command queue
@@ -66,13 +66,13 @@ namespace CompositorU {
 				// Set the material properties
 				material.SetVector("_Size", new Vector2(composite.width, composite.height));
 				material.SetVector ("_Scale", Vector2.Scale(new Vector2(layer.texture.width, layer.texture.height), layer.scale));
-				material.SetVector("_Offset", new Vector2((float)layer.offset.x / composite.width, (float)layer.offset.y / composite.height));
+				material.SetVector("_Offset", layer.offset);
 				material.SetFloat ("_Rotation", layer.rotation * Mathf.Deg2Rad);
 				// Blit
 				Graphics.Blit(layer.texture, composite, material);
 				// Invoke composition callback
 				// This should be used for resource and memory management because compositing is asynchronous,
-				// hence you can free the layer texture once it has been used
+				// hence you can free the layer texture immediately it has been used
 				if (layer.callback != null) layer.callback(layer.texture);
 			});
 		}

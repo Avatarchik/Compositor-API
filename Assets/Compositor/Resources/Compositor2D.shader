@@ -14,7 +14,7 @@
 
 			#pragma vertex vert
 			#pragma fragment frag
-			
+
 			#include "UnityCG.cginc"
 
 			struct appdata {
@@ -28,7 +28,7 @@
 			};
 
 			float2 _Offset, _Scale, _Size;
-			float _Rotation; // Radians
+			float _Rotation; // Radians ccw
 
 			v2f vert (appdata v) {
 				v2f o;
@@ -60,7 +60,7 @@
 				// Scale the coordinate
 				o.uv = mul(m_scale, o.uv);
 				// Reset the offset
-				o.uv += float2(0.5, 0.5);
+				o.uv += float2(0.5, 0.5) + _Offset;
 				return o;
 			}
 			

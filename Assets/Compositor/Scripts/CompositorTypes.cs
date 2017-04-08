@@ -23,6 +23,13 @@ namespace CompositorU {
             this.x = x;
             this.y = y;
         }
+
+		public static implicit operator Vector4 (Point p) {
+			return new Vector2(p.x, p.y);
+		}
+		public static implicit operator Point (Vector2 p) {
+			return new Point((int)p.x, (int)p.y);
+		}
     }
 
 	[Serializable]
