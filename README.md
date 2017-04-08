@@ -2,7 +2,7 @@
 Compositor is a lightweight utility API for compositing images quickly and efficiently in Unity.
 Download the unitypackage [here](http://www.google.com).
 
-## How to Use
+## Compositor
 Compositor treats images as layers. First, you create a compositor:
 ```csharp
 var compositor = new RenderCompositor();
@@ -26,9 +26,6 @@ using (var compositor = new RenderCompositor()) {
     compositor.Composite(OnComposite);
 } // The compositor is automatically freed at the end of this block
 ```
-
-## Compositor
-*INCOMPLETE*
 
 ## RenderCompositor
 *INCOMPLETE*

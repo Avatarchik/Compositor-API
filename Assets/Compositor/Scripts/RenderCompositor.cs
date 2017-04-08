@@ -66,7 +66,7 @@ namespace CompositorU {
 				// Set the material properties
 				material.SetVector("_Size", new Vector2(composite.width, composite.height));
 				material.SetVector ("_Scale", Vector2.Scale(new Vector2(layer.texture.width, layer.texture.height), layer.scale));
-				material.SetVector("_Offset", layer.offset);
+				material.SetVector("_Offset", (Vector4)layer.offset);
 				material.SetFloat ("_Rotation", layer.rotation * Mathf.Deg2Rad);
 				// Blit
 				Graphics.Blit(layer.texture, composite, material);

@@ -60,7 +60,7 @@
 				// Scale the coordinate
 				o.uv = mul(m_scale, o.uv);
 				// Reset the offset
-				o.uv += float2(0.5, 0.5) + _Offset;
+				o.uv += _Size / _Scale * (0.5 - _Offset / _Size);
 				return o;
 			}
 			

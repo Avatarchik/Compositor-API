@@ -24,7 +24,7 @@ namespace CompositorU {
             this.y = y;
         }
 
-		public static implicit operator Vector4 (Point p) {
+		public static explicit operator Vector4 (Point p) {
 			return new Vector2(p.x, p.y);
 		}
 		public static implicit operator Point (Vector2 p) {
