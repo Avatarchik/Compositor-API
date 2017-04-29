@@ -1,4 +1,6 @@
-﻿Shader "Hidden/Compositor2D" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Hidden/Compositor2D" {
 	Properties {
 		_MainTex ("Texture", 2D) = "white" {}
 	}
@@ -32,7 +34,7 @@
 
 			v2f vert (appdata v) {
 				v2f o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				// Calculate the sine and cosine of the angle
 				float c = cos(_Rotation), s = sin(_Rotation);
 				float2x2

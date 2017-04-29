@@ -19,6 +19,7 @@ namespace CompositorU {
     [Serializable]
     public struct Point {
         public int x, y;
+		public static readonly Point zero = Vector2.zero;
         public Point (int x, int y) {
             this.x = x;
             this.y = y;

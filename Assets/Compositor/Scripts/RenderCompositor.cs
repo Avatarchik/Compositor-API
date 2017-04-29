@@ -10,7 +10,7 @@ namespace CompositorU {
 	using System.Collections.Generic;
 	using Layers = System.Collections.Generic.List<Layer>;
 
-	public sealed class RenderCompositor : IDisposable {
+	public sealed class RenderCompositor : ICompositor {
 
 		#region --Op vars--
 		private RenderTexture composite;

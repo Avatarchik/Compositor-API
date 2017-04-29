@@ -1,8 +1,8 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{358A9C47-4655-FD3F-FDB1-4DD48743F296}") = "Compositor1.0", "Assembly-CSharp.csproj", "{A199E442-5625-9093-40BF-9FC6E65BF7B6}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compositor1.0", "Assembly-CSharp.csproj", "{A199E442-5625-9093-40BF-9FC6E65BF7B6}"
 EndProject
-Project("{358A9C47-4655-FD3F-FDB1-4DD48743F296}") = "Compositor1.0", "Assembly-CSharp-Editor-firstpass.csproj", "{F0A2689C-B8C1-D13D-21C3-ED9238CB47BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compositor1.0", "Assembly-CSharp-Editor-firstpass.csproj", "{F0A2689C-B8C1-D13D-21C3-ED9238CB47BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
