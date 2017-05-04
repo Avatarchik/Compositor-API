@@ -5,7 +5,8 @@ Download the unitypackage [here](https://www.dropbox.com/s/qa8fhvkyo3gmrot/Compo
 ## Compositor
 Compositor treats images as layers. First, you create a compositor:
 ```csharp
-var compositor = new RenderCompositor();
+// Create a compositor with a size
+var compositor = new RenderCompositor(width, height);
 ```
 Then you add layers:
 ```csharp
@@ -33,7 +34,7 @@ compositor.Dispose();
 ```
 Compositors implement the IDisposable interface, so you can use it in a `using` block:
 ```csharp
-using (var compositor = new RenderCompositor()) {
+using (var compositor = new RenderCompositor(width, height)) {
     // Add layers...
     compositor.Composite(OnComposite);
 } // The compositor is automatically freed at the end of this block

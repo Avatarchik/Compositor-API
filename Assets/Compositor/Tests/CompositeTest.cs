@@ -16,7 +16,7 @@ namespace CompositorU.Tests {
 		// Use this for initialization
 		void Start () {
 			// Create a compositor
-			using (var compositor = new RenderCompositor()) {
+			using (var compositor = new RenderCompositor(layers[0].texture.width, layers[0].texture.height)) {
 				// Add layers
 				foreach (var layer in layers) compositor.AddLayer (layer);
 				// Composite and display the result

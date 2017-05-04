@@ -16,24 +16,10 @@ namespace CompositorU.Tests {
 
         // Use this for initialization
 		void Start () {
-            // Create a compositor
-			using (var compositor = new RenderCompositor()) {
-                // Add a spoof layer
-                compositor.AddLayer(new Layer(
-                    new Texture2D(photo.height, photo.width),
-                    Point.zero,
-                    0f,
-                    Vector2.one,
-                    Layer.Release
-                ));
+            // Create a compositor // Swap width and height because we are rotating by 90 degrees
+			using (var compositor = new RenderCompositor(photo.height, photo.width)) {
                 // Add the photo texture
-                compositor.AddLayer(new Layer(
-                    photo,
-                    Point.zero,
-                    90f,
-                    Vector2.one,
-                    null
-                ));
+                compositor.AddLayer(new Layer(photo, Point.zero, 90f, Vector2.one, null));
                 // Add layers
 				foreach (var layer in layers) compositor.AddLayer (layer);
 				// Composite and display the result

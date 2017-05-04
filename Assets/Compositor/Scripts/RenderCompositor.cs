@@ -22,20 +22,19 @@ namespace CompositorU {
 
 		#region --Client API--
 
-		public RenderCompositor () {
+		public RenderCompositor (int width, int height) {
 			// Create the material
 			material = new Material (Shader.Find ("Hidden/Compositor2D"));
 			// Create the graphic command queue
 			commandQueue = new GraphicsQueue();
 			// Create the layers collection
 			layers = new Layers();
+			// Create the composite
+			composite = RenderTexture.GetTemporary(width, height, 0);
+			composite.DiscardContents();
 		}
 
 		public void AddLayer (Layer layer) {
-			// Check and create the composite target
-			composite = composite ?? RenderTexture.GetTemporary(layer.texture.width, layer.texture.height, 0);
-			// Prepare the composite for compositing
-			if (layers.Count == 0) composite.DiscardContents();
 			// Add the layer
 			layers.Add(layer);
 		}
