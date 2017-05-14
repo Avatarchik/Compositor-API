@@ -5,7 +5,7 @@
 
 namespace CompositorU {
 
-    public class PixelCompositor : ICompositor {
+    public sealed class PixelCompositor : ICompositor {
 
         #region --Op vars--
         private readonly bool immediate;

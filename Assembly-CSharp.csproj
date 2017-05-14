@@ -49,13 +49,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Compositor\Examples\CompositeLayers.cs" />
+     <Compile Include="Assets\Compositor\Examples\RotatedBackground.cs" />
      <Compile Include="Assets\Compositor\Scripts\CompositorTypes.cs" />
      <Compile Include="Assets\Compositor\Scripts\ICompositor.cs" />
      <Compile Include="Assets\Compositor\Scripts\PixelCompositor.cs" />
      <Compile Include="Assets\Compositor\Scripts\RenderCompositor.cs" />
-     <Compile Include="Assets\Compositor\Tests\CompositeTest.cs" />
-     <Compile Include="Assets\Compositor\Tests\RotatedBackgroundTest.cs" />
-     <None Include="Assets\Compositor\Resources\Compositor2D.shader" />
+     <None Include="Assets\Compositor\Resources\RenderCompositor.shader" />
+     <None Include="Assets\Support\RenderCompositorDebug.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

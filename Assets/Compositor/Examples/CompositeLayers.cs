@@ -6,9 +6,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CompositorU.Tests {
+namespace CompositorU.Examples {
 
-	public class CompositeTest : MonoBehaviour {
+	public class CompositeLayers : MonoBehaviour {
 
 		public RawImage rawImage;
 		public Layer[] layers;

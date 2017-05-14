@@ -6,9 +6,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CompositorU.Tests {
+namespace CompositorU.Examples {
 
-	public class RotatedBackgroundTest : MonoBehaviour {
+	public class RotatedBackground : MonoBehaviour {
 
         public RawImage rawImage;
 		public Texture2D photo;

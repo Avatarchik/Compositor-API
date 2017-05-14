@@ -24,7 +24,7 @@ namespace CompositorU {
 
 		public RenderCompositor (int width, int height) {
 			// Create the material
-			material = new Material (Shader.Find ("Hidden/Compositor2D"));
+			material = new Material (Shader.Find ("Hidden/RenderCompositor"));
 			// Create the graphic command queue
 			commandQueue = new GraphicsQueue();
 			// Create the layers collection
@@ -62,11 +62,20 @@ namespace CompositorU {
 
 		private void Composite (Layer layer) {
 			commandQueue.Enqueue(() => {
+				// Calculate the layer properties
+				Vector2
+				size = new Vector2(composite.width, composite.height),
+				scale = Vector2.Scale(new Vector2(layer.texture.width, layer.texture.height), layer.scale),
+				ratio = new Vector2(size.x / scale.x, size.y / scale.y),
+				rotation = new Vector2(Mathf.Sin(layer.rotation * Mathf.Deg2Rad), Mathf.Cos(layer.rotation * Mathf.Deg2Rad));
+				bool wide = Mathf.Abs(scale.x) > Mathf.Abs(scale.y);
 				// Set the material properties
-				material.SetVector("_Size", new Vector2(composite.width, composite.height));
-				material.SetVector ("_Scale", Vector2.Scale(new Vector2(layer.texture.width, layer.texture.height), layer.scale));
+				material.SetVector("_Size", size);
+				material.SetVector("_Scale", scale);
+				material.SetVector("_Ratio", ratio);
 				material.SetVector("_Offset", (Vector4)layer.offset);
-				material.SetFloat ("_Rotation", layer.rotation * Mathf.Deg2Rad);
+				material.SetVector("_Rotation", rotation);
+				material.SetVector("_Window", new Vector2(wide ? 1.0f : 0.5f + 0.5f * size.y / size.x, wide ? 0.5f + 0.5f * size.x / size.y : 1.0f));
 				// Blit
 				Graphics.Blit(layer.texture, composite, material);
 				// Invoke composition callback
