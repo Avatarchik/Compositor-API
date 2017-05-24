@@ -1,4 +1,4 @@
-﻿/* 
+/* 
 *   Compositor
 *   Copyright (c) 2017 Yusuf Olokoba
 */
@@ -31,7 +31,11 @@ namespace CompositorU {
 			layers = new Layers();
 			// Create the composite
 			composite = RenderTexture.GetTemporary(width, height, 0);
-			composite.DiscardContents();
+			// Clear it
+			commandQueue.Enqueue(() => {
+				Graphics.SetRenderTarget(composite);
+				GL.Clear(true, true, Color.black);
+			});
 		}
 
 		public void AddLayer (Layer layer) {
@@ -60,32 +64,46 @@ namespace CompositorU {
 
 		#region --Operations--
 
-		private void Composite (Layer layer) {
+        private void Composite (Layer layer) {
 			commandQueue.Enqueue(() => {
-				// Calculate the layer properties
-				Vector2
-				size = new Vector2(composite.width, composite.height),
-				scale = Vector2.Scale(new Vector2(layer.texture.width, layer.texture.height), layer.scale),
-				ratio = new Vector2(size.x / scale.x, size.y / scale.y),
-				rotation = new Vector2(Mathf.Sin(layer.rotation * Mathf.Deg2Rad), Mathf.Cos(layer.rotation * Mathf.Deg2Rad));
-				bool wide = Mathf.Abs(scale.x) > Mathf.Abs(scale.y);
-				// Set the material properties
-				material.SetVector("_Size", size);
-				material.SetVector("_Scale", scale);
-				material.SetVector("_Ratio", ratio);
-				material.SetVector("_Offset", (Vector4)layer.offset);
-				material.SetVector("_Rotation", rotation);
-				material.SetVector("_Window", new Vector2(wide ? 1.0f : 0.5f + 0.5f * size.y / size.x, wide ? 0.5f + 0.5f * size.x / size.y : 1.0f));
-				// Blit
-				Graphics.Blit(layer.texture, composite, material);
-				// Invoke composition callback
-				// This should be used for resource and memory management because compositing is asynchronous,
-				// hence you can free the layer texture immediately it has been used
-				if (layer.callback != null) layer.callback(layer.texture);
-			});
-		}
+				// Set the render target
+				Graphics.SetRenderTarget(composite);
+				// Load the ortho projection
+				GL.PushMatrix();
+				GL.LoadPixelMatrix(0, composite.width, 0, composite.height);
+				// Set the material texture
+				material.SetTexture("_MainTex", layer.texture);
+				// Set the material pass
+				if (!material.SetPass(0)) {
+					Debug.LogError("Compositor: Failed to activate compositor material to composite layer");
+					return;
+				}
+				// Apply the transformations // Note that the multiplication is done in reverse order
+				var extent = new Vector2(layer.texture.width, layer.texture.height) * 0.5f;
+				GL.MultMatrix(
+					Matrix4x4.Translate((Vector3)layer.offset) *
+					Matrix4x4.Scale(layer.scale) *
+					Matrix4x4.Translate(extent) *
+					Matrix4x4.TRS(Vector2.zero, Quaternion.AngleAxis(layer.rotation, Vector3.forward), Vector3.one) *
+					Matrix4x4.Translate(-extent)
+				);
+				// Draw the quad
+				GL.Begin(GL.QUADS);
+				GL.TexCoord2(0f, 0f);
+				GL.Vertex3(0f, 0f, 0);
+				GL.TexCoord2(0f, 1f);
+				GL.Vertex3(0f, layer.texture.height, 0);
+				GL.TexCoord2(1f, 1f);
+				GL.Vertex3(layer.texture.width, layer.texture.height, 0);
+				GL.TexCoord2(1f, 0f);
+				GL.Vertex3(layer.texture.width, 0f, 0);
+				GL.End();
+				// Restore camera projection
+				GL.PopMatrix ();
+            });
+        }
 
-		private void Readback (CompositeCallback callback) { // Does not null-check the `callback` parameter
+        private void Readback (CompositeCallback callback) {
 			commandQueue.Enqueue(() => {
 				// Create a result texture
 				var result = new Texture2D(composite.width, composite.height);
@@ -99,16 +117,16 @@ namespace CompositorU {
 				callback(result);
 			});
 		}
-		#endregion
+        #endregion
 
 
-		#region --IDisposable--
+        #region --IDisposable--
 
 		public void Dispose () {
 			// Enqueue to guarantee that any previous calls to Composite and Readback are completed
 			commandQueue.Enqueue(() => {
 				// Free the composite texture
-				RenderTexture.ReleaseTemporary(composite); 
+				RenderTexture.ReleaseTemporary(composite);
 				// Free the material
 				Material.Destroy(material);
 				// Dispose the command queue
@@ -120,7 +138,7 @@ namespace CompositorU {
 		#endregion
 
 
-		#region --Utility--
+        #region --Utility--
 		
 		/// <summary>
 		/// This is a helper class for invoking Graphics jobs at the right time.
@@ -155,5 +173,5 @@ namespace CompositorU {
 			}
 		}
 		#endregion
-	}
+    }
 }

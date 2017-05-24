@@ -1,4 +1,5 @@
-﻿//
+﻿
+//
 //	Compositor
 //	Copyright (c) 2017 Yusuf Olokoba
 //
@@ -47,10 +48,12 @@ Shader "Compositor/RenderCompositorDebug" {
 					float2 (_Size.x / _Scale.x, 0.0),
 					float2 (0.0, _Size.y / _Scale.y)
 				);
+				// Center the coordinate
+				o.uv = v.uv - 0.5;
 				// Scale the layer to pixel space
-				o.uv = mul(m_scale, v.uv);
+				o.uv = mul(m_scale, o.uv);
 				// Offset
-				o.uv -= _Offset / _Scale;
+				o.uv += 0.5 - _Offset / _Scale;
 				return o;
 			}
 			
@@ -63,7 +66,7 @@ Shader "Compositor/RenderCompositorDebug" {
 				window = float2 (wider ? 1.0 : 0.5 + 0.5 * _Size.y / _Size.x, wider ? 0.5 + 0.5 * _Size.x / _Size.y : 1.0), // CONST
 				uv = float2 (i.uv.x % window.x, i.uv.y % window.y);
 				// Window the UV
-				if (i.uv.x > window.x || i.uv.y > window.y) return fixed4(0.0, 0.0, 0.0, 0.0);
+				//if (i.uv.x < -window.x || i.uv.x > window.x || i.uv.y < -window.y || i.uv.y > window.y) return fixed4(0.0, 0.0, 0.0, 0.0);
 				// Calculate the transformation matrices
 				float s, c; sincos(_Rotation, s, c); // CONST
 				float2x2
