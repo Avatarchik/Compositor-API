@@ -51,7 +51,6 @@
   <ItemGroup>
      <Compile Include="Assets\Plugins\Editor\VSCode.cs" />
      <None Include="Assets\Compositor\Resources\RenderCompositor.shader" />
-     <None Include="Assets\Support\RenderCompositorDebug.shader" />
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>
