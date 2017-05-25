@@ -7,6 +7,11 @@ namespace CompositorU {
 
     public sealed class PixelCompositor : ICompositor {
 
+        #region --Properties--
+        public int Width {get; private set;}
+		public int Height {get; private set;}
+        #endregion
+
         #region --Op vars--
         private readonly bool immediate;
         #endregion

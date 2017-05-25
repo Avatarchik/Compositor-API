@@ -12,6 +12,12 @@ namespace CompositorU {
 
 	public sealed class RenderCompositor : ICompositor {
 
+		#region --Properties--
+		public int Width {get; private set;}
+		public int Height {get; private set;}
+		#endregion
+
+
 		#region --Op vars--
 		private RenderTexture composite;
 		private Material material;
@@ -29,8 +35,8 @@ namespace CompositorU {
 			commandQueue = new GraphicsQueue();
 			// Create the layers collection
 			layers = new Layers();
-			// Create the composite
-			composite = RenderTexture.GetTemporary(width, height, 0);
+			// Create the composite // Antialiasing please ;)
+			composite = RenderTexture.GetTemporary(Width = width, Height = height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Default, 8);
 			// Clear it
 			commandQueue.Enqueue(() => {
 				Graphics.SetRenderTarget(composite);
