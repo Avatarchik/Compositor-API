@@ -5,30 +5,62 @@
 
 namespace CompositorU {
 
-    public sealed class PixelCompositor : ICompositor {
+    using UnityEngine;
+    using System;
+    using Layers = System.Collections.Generic.List<Layer>;
+
+    public sealed class PixelCompositor : ICompositor { // INCOMPLETE
 
         #region --Properties--
-        public int Width {get; private set;}
-		public int Height {get; private set;}
+        public int width {get; private set;}
+		public int height {get; private set;}
         #endregion
 
+
         #region --Op vars--
+        private Color32[] composite;
+        private Layers layers;
         private readonly bool immediate;
         #endregion
 
 
         #region --Client API--
         
-        public PixelCompositor (bool immediate = true) {
+        public PixelCompositor (int width, int height, bool immediate = true) {
+            // Create the layers collection
+			layers = new Layers();
+            // Create the composite up front
+            composite = new Color32[(this.width = width) * (this.height = height)];
+            // Set immediate
             this.immediate = immediate;
         }
 
         public void AddLayer (Layer layer) {
-
+            // Composite
+			if (immediate) Composite(layer);
+            // Add the layer
+            else layers.Add(layer);
         }
 
         public void Composite (CompositeCallback callback) {
-
+            // Null checking
+			if (callback == null) {
+				Debug.LogError("Compositor: Callback must not be null");
+				return;
+			}
+            if (composite == null) {
+				Debug.LogError("Compositor: No layers to composite. You might have called Dispose() too early");
+				return;
+			}
+            // If immediate, composite
+            foreach (var layer in layers) Composite(layer);
+            // Create a result texture
+			var result = new Texture2D(width, height);
+            // Load the composite data into the texture
+			result.SetPixels32(composite);
+			result.Apply();
+            // Invoke callback
+            callback(result);
         }
         #endregion
 
@@ -36,7 +68,7 @@ namespace CompositorU {
         #region --Operations--
 
         private void Composite (Layer layer) {
-
+            // Translation, rotation, scale, alpha blending
         }
         #endregion
 
@@ -44,7 +76,11 @@ namespace CompositorU {
         #region --IDisposable--
 
         public void Dispose () {
-
+            // Clear layers
+            layers.Clear();
+            // Force garbage collection
+            composite = null;
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
         }
         #endregion
 

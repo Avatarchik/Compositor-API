@@ -55,6 +55,8 @@
      <Compile Include="Assets\Compositor\Scripts\ICompositor.cs" />
      <Compile Include="Assets\Compositor\Scripts\PixelCompositor.cs" />
      <Compile Include="Assets\Compositor\Scripts\RenderCompositor.cs" />
+     <Compile Include="Assets\ImageUtilities\ImageCompositor.cs" />
+     <Compile Include="Assets\ImageUtilities\ImageOperations.cs" />
      <None Include="Assets\Compositor\Resources\RenderCompositor.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

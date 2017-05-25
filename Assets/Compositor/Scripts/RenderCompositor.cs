@@ -7,14 +7,22 @@ namespace CompositorU {
 
 	using UnityEngine;
 	using System;
-	using System.Collections.Generic;
+	using JobQueue = System.Collections.Generic.List<System.Action>;
 	using Layers = System.Collections.Generic.List<Layer>;
 
 	public sealed class RenderCompositor : ICompositor {
 
 		#region --Properties--
-		public int Width {get; private set;}
-		public int Height {get; private set;}
+		public int width {
+			get {
+				return composite.width;
+			}
+		}
+		public int height {
+			get {
+				return composite.height;
+			}
+		}
 		#endregion
 
 
@@ -36,7 +44,7 @@ namespace CompositorU {
 			// Create the layers collection
 			layers = new Layers();
 			// Create the composite // Antialiasing please ;)
-			composite = RenderTexture.GetTemporary(Width = width, Height = height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Default, 8);
+			composite = RenderTexture.GetTemporary(width, height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Default, 8);
 			// Clear it
 			commandQueue.Enqueue(() => {
 				Graphics.SetRenderTarget(composite);
@@ -153,11 +161,11 @@ namespace CompositorU {
 		/// </summary>
 		private sealed class GraphicsQueue : IDisposable {
 
-			private List<Action> jobs;
+			private JobQueue jobs;
 
 			public GraphicsQueue () {
 				// Create the queue
-				jobs = new List<Action>();
+				jobs = new JobQueue();
 				// Register for the post render event
 				Camera.onPostRender += Update;
 			}

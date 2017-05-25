@@ -43,6 +43,9 @@ using (var compositor = new RenderCompositor(width, height)) {
 ## RenderCompositor
 *INCOMPLETE*
 
+## PixelCompositor
+*INCOMPLETE*
+
 ## Credits
 - [Yusuf Olokoba](mailto:olokobayusuf@gmail.com)
 - [Owen Mundy](omundy@gmail.com)

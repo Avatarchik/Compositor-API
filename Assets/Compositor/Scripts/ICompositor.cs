@@ -10,8 +10,8 @@ namespace CompositorU {
     public interface ICompositor : IDisposable {
 
         #region --Properties--
-        int Width {get;}
-        int Height {get;}
+        int width {get;}
+        int height {get;}
         #endregion
 
         #region --Client API--

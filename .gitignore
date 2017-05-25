@@ -8,4 +8,6 @@ Assets/Images/
 Assets/Images.meta
 Assets/Plugins/
 Assets/Plugins.meta
+Assets/ImageUtilities/
+Assets/ImageUtilities.meta
 RegisterIcalls.cpp
