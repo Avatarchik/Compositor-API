@@ -15,7 +15,17 @@ namespace CompositorU {
         #endregion
 
         #region --Client API--
+
+        /// <summary>
+		/// Add a layer to be composited
+		/// </summary>
+		/// <param name="layer">Layer to be composited</param>
         void AddLayer (Layer layer);
+        
+        /// <summary>
+		/// Add a layer to be composited
+		/// </summary>
+		/// <param name="layer">Layer to be composited</param>
         void Composite (CompositeCallback callback);
         #endregion
     }

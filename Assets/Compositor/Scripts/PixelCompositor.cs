@@ -20,21 +20,33 @@ namespace CompositorU {
         #region --Op vars--
         private Color32[] composite;
         private Layers layers;
-        private readonly bool immediate;
+        private readonly bool alpha, immediate;
         #endregion
 
 
         #region --Client API--
-        
-        public PixelCompositor (int width, int height, bool immediate = true) {
+
+        /// <summary>
+		/// Create a pixel compositor
+		/// </summary>
+		/// <param name="width">Composite width</param>
+		/// <param name="height">Composite height</param>
+        /// <param name="transparency">Should transparency be supported? Leaving false can greatly improve performance</param>
+        /// <param name="immediate">Should layers be composited immediately they are added? Leaving true could improve memory management</param>
+        public PixelCompositor (int width, int height, bool transparency = true, bool immediate = true) {
             // Create the layers collection
 			layers = new Layers();
             // Create the composite up front
             composite = new Color32[(this.width = width) * (this.height = height)];
-            // Set immediate
+            // Set options
+            this.alpha = transparency;
             this.immediate = immediate;
         }
 
+        /// <summary>
+		/// Add a layer to be composited
+		/// </summary>
+		/// <param name="layer">Layer to be composited</param>
         public void AddLayer (Layer layer) {
             // Composite
 			if (immediate) Composite(layer);
@@ -42,6 +54,10 @@ namespace CompositorU {
             else layers.Add(layer);
         }
 
+        /// <summary>
+		/// Composite layers
+		/// </summary>
+		/// <param name="callback">Callback to be invoked with the composite texture</param>
         public void Composite (CompositeCallback callback) {
             // Null checking
 			if (callback == null) {

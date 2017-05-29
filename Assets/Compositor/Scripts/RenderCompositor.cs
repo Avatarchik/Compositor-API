@@ -36,6 +36,11 @@ namespace CompositorU {
 
 		#region --Client API--
 
+		/// <summary>
+		/// Create a GPU-accelerated compositor
+		/// </summary>
+		/// <param name="width">Composite width</param>
+		/// <param name="height">Composite height</param>
 		public RenderCompositor (int width, int height) {
 			// Create the material
 			material = new Material (Shader.Find ("Hidden/RenderCompositor"));
@@ -52,11 +57,19 @@ namespace CompositorU {
 			});
 		}
 
+		/// <summary>
+		/// Add a layer to be composited
+		/// </summary>
+		/// <param name="layer">Layer to be composited</param>
 		public void AddLayer (Layer layer) {
 			// Add the layer
 			layers.Add(layer);
 		}
 
+		/// <summary>
+		/// Composite layers
+		/// </summary>
+		/// <param name="callback">Callback to be invoked with the composite texture</param>
 		public void Composite (CompositeCallback callback) {
 			// Null checking
 			if (callback == null) {
@@ -96,9 +109,8 @@ namespace CompositorU {
 				var extent = new Vector2(layer.texture.width, layer.texture.height) * 0.5f;
 				GL.MultMatrix(
 					Matrix4x4.Translate((Vector3)layer.offset) *
-					Matrix4x4.Scale(layer.scale) *
 					Matrix4x4.Translate(extent) *
-					Matrix4x4.TRS(Vector2.zero, Quaternion.AngleAxis(layer.rotation, Vector3.forward), Vector3.one) *
+					Matrix4x4.TRS(Vector2.zero, Quaternion.AngleAxis(layer.rotation, Vector3.forward), layer.scale) *
 					Matrix4x4.Translate(-extent)
 				);
 				// Draw the quad
