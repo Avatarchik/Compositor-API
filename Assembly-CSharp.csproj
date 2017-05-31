@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Compositor\Examples\CompositeLayers.cs" />
-     <Compile Include="Assets\Compositor\Examples\RotatedBackground.cs" />
      <Compile Include="Assets\Compositor\Scripts\CompositorTypes.cs" />
      <Compile Include="Assets\Compositor\Scripts\ICompositor.cs" />
      <Compile Include="Assets\Compositor\Scripts\PixelCompositor.cs" />
