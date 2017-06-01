@@ -110,7 +110,8 @@ namespace CompositorU {
 				GL.MultMatrix(
 					Matrix4x4.Translate((Vector3)layer.offset) *
 					Matrix4x4.Translate(extent) *
-					Matrix4x4.TRS(Vector2.zero, Quaternion.AngleAxis(layer.rotation, Vector3.forward), layer.scale) *
+					Matrix4x4.Scale(layer.scale) *
+					Matrix4x4.TRS(Vector2.zero, Quaternion.AngleAxis(layer.rotation, Vector3.forward), Vector3.one) *
 					Matrix4x4.Translate(-extent)
 				);
 				// Draw the quad
