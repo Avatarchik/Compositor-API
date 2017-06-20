@@ -13,16 +13,8 @@ namespace CompositorU {
 	public sealed class RenderCompositor : ICompositor {
 
 		#region --Properties--
-		public int width {
-			get {
-				return composite.width;
-			}
-		}
-		public int height {
-			get {
-				return composite.height;
-			}
-		}
+		public int width {get {return composite.width;}}
+		public int height {get {return composite.height;}}
 		#endregion
 
 
@@ -86,6 +78,20 @@ namespace CompositorU {
 			// Readback
 			Readback(callback);
 		}
+
+		public void Dispose () {
+			// Enqueue to guarantee that any previous calls to Composite and Readback are completed
+			commandQueue.Enqueue(() => {
+				// Free the composite texture
+				RenderTexture.ReleaseTemporary(composite);
+				// Free the material
+				Material.Destroy(material);
+				// Dispose the command queue
+				commandQueue.Dispose();
+				// Clear the layers
+				layers.Clear();
+			});
+		}
 		#endregion
 
 
@@ -145,24 +151,6 @@ namespace CompositorU {
 			});
 		}
         #endregion
-
-
-        #region --IDisposable--
-
-		public void Dispose () {
-			// Enqueue to guarantee that any previous calls to Composite and Readback are completed
-			commandQueue.Enqueue(() => {
-				// Free the composite texture
-				RenderTexture.ReleaseTemporary(composite);
-				// Free the material
-				Material.Destroy(material);
-				// Dispose the command queue
-				commandQueue.Dispose();
-				// Clear the layers
-				layers.Clear();
-			});
-		}
-		#endregion
 
 
         #region --Utility--
