@@ -1,6 +1,5 @@
 ## Compositor 1.0b2
-+ Added PixelCompositor (though it is incomplete).
-+ Added ICompositor.Width and ICompositor.Height getters.
++ Added ICompositor.width and ICompositor.height getters.
 + Reimplemented RenderCompositor to use GL immediate commands.
 + Fixed bugs when rotating a layer being composited.
 

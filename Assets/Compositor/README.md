@@ -6,7 +6,7 @@ Download the unitypackage [here](https://www.dropbox.com/s/bbpb1swcnx9hp8u/Compo
 Compositor treats images as layers. First, you create a compositor:
 ```csharp
 // Create a compositor with a size
-var compositor = new RenderCompositor(width, height);
+ICompositor compositor = new RenderCompositor(width, height);
 ```
 Then you add layers:
 ```csharp
@@ -39,12 +39,6 @@ using (var compositor = new RenderCompositor(width, height)) {
     compositor.Composite(OnComposite);
 } // The compositor is automatically freed at the end of this block
 ```
-
-## RenderCompositor
-*INCOMPLETE*
-
-## PixelCompositor
-*INCOMPLETE*
 
 ## Credits
 - [Yusuf Olokoba](mailto:olokobayusuf@gmail.com)
