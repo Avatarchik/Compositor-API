@@ -1,4 +1,6 @@
 # Compositor API
+![Compositor](Compositor.png)
+
 Compositor is a lightweight utility API for compositing images quickly and efficiently in Unity.
 Download the unitypackage [here](https://www.dropbox.com/s/bbpb1swcnx9hp8u/Compositor1.0b1.unitypackage?dl=1).
 
