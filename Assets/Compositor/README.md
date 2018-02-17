@@ -42,4 +42,4 @@ using (var compositor = new RenderCompositor(width, height)) {
 
 ## Credits
 - [Yusuf Olokoba](mailto:olokobayusuf@gmail.com)
-- [Owen Mundy](omundy@gmail.com)
+- [Owen Mundy](mailto:omundy@gmail.com)
